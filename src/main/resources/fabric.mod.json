@@ -1,0 +1,27 @@
+{
+	"schemaVersion": 1,
+	"id": "vehiclefix",
+	"version": "${version}",
+	"name": "VehicleFix",
+	"description": "A small mod that makes it so vehicles (boat, horse, minecart, etc) check if their passenger is going to collide with blocks when it moves.",
+	"authors": [
+		"Cammie"
+	],
+	"contact": {},
+	"license": "MIT",
+	"icon": "assets/vehiclefix/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.cammiescorner.vehiclefix.VehicleFix"
+		]
+	},
+	"mixins": [
+		"vehiclefix.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.11.1",
+		"fabric": "*",
+		"minecraft": "1.16.5"
+	}
+}
