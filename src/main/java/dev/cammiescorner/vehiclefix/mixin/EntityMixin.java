@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -33,11 +34,9 @@ public abstract class EntityMixin
 
 	private static final Tag<EntityType<?>> AFFECTS = TagRegistry.entityType(new Identifier(VehicleFix.MOD_ID, "fixed_collision"));
 
-	@Redirect(method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	Box getBoundingBox(Entity entity)
+	@Inject(method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"), locals = LocalCapture.CAPTURE_FAILSOFT)
+	public void adjustMovementForCollisions(Vec3d movement, CallbackInfoReturnable<Vec3d> info, Box box)
 	{
-		Box box = entityBounds;
-
 		if(hasPassengers() && (AFFECTS.values().isEmpty() || AFFECTS.contains(type)))
 		{
 			for(Entity passenger : getPassengerList())
@@ -46,6 +45,5 @@ public abstract class EntityMixin
 			}
 		}
 
-		return box;
 	}
 }
