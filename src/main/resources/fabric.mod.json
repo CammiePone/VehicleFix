@@ -11,17 +11,12 @@
 	"license": "MIT",
 	"icon": "assets/vehiclefix/icon.png",
 	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"dev.cammiescorner.vehiclefix.VehicleFix"
-		]
-	},
 	"mixins": [
 		"vehiclefix.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.11.1",
+		"fabricloader": ">=0.11.3",
 		"fabric": "*",
-		"minecraft": "1.16.5"
+		"minecraft": "1.17.x"
 	}
 }
