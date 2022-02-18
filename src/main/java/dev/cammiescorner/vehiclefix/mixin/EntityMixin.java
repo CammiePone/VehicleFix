@@ -32,7 +32,7 @@ public abstract class EntityMixin {
 	@ModifyVariable(method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;", at = @At(value = "INVOKE_ASSIGN",
 			target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"
 	))
-	private Box getBoundingBox(Box box) {
+	private Box vehiclefix$getBoundingBox(Box box) {
 		if(getVehicle() != null && (EntityTags.AFFECTS.values().isEmpty() || EntityTags.AFFECTS.contains(getVehicle().getType())))
 			return new Box(box.minX, getVehicle().getBoundingBox().minY + 0.1, box.minZ, box.maxX, box.maxY, box.maxZ);
 
