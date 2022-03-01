@@ -26,14 +26,13 @@ public abstract class EntityMixin {
 	@Shadow public abstract List<Entity> getPassengerList();
 	@Shadow @Nullable public abstract Entity getVehicle();
 	@Shadow public abstract EntityType<?> getType();
-
 	@Shadow public World world;
 
 	@ModifyVariable(method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;", at = @At(value = "INVOKE_ASSIGN",
 			target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"
 	))
 	private Box vehiclefix$getBoundingBox(Box box) {
-		if(getVehicle() != null && (EntityTags.AFFECTS.values().isEmpty() || EntityTags.AFFECTS.contains(getVehicle().getType())))
+		if(getVehicle() != null && (EntityTags.affectsIsEmpty() || getVehicle().getType().isIn(EntityTags.AFFECTS)))
 			return new Box(box.minX, getVehicle().getBoundingBox().minY + 0.1, box.minZ, box.maxX, box.maxY, box.maxZ);
 
 		return box;
@@ -43,7 +42,7 @@ public abstract class EntityMixin {
 			ordinal = 1
 	), cancellable = true, locals = LocalCapture.CAPTURE_FAILSOFT)
 	public void vehiclefix$handleRiderCollisions(Vec3d movement, CallbackInfoReturnable<Vec3d> info, Box box, List<VoxelShape> list, Vec3d vec3d) {
-		if((EntityTags.AFFECTS.values().isEmpty() || EntityTags.AFFECTS.contains(getType()))) {
+		if(EntityTags.affectsIsEmpty() || getType().isIn(EntityTags.AFFECTS)) {
 			for(Entity passenger : getPassengerList()) {
 				BlockState state = world.getBlockState(new BlockPos(passenger.getPos().add(0, passenger.getHeight(), 0).add(movement.normalize())));
 

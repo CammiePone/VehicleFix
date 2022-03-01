@@ -15,7 +15,7 @@
 	"accessWidener": "META-INF/vehiclefix.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.13.1",
-		"minecraft": "*",
+		"minecraft": "~1.18.2",
 		"fabric": "*"
 	}
 }
